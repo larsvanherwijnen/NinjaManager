@@ -1,0 +1,63 @@
+@model IEnumerable<Web.ViewModels.Ninja.NinjaViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-4xl mb-2">Choose your ninja</h1>
+
+<p>
+    <a class="btn btn-xs btn-success" asp-action="Create"><i class="fa-solid fa-plus"></i>Create New</a>
+</p>
+
+<hr class="my-2" />
+
+<div class="flex flex-row items-start justify-start flex-wrap my-4">
+    @foreach (var item in Model)
+    {
+        <div class="card w-80 bg-base-100 shadow-xl mr-14 mb-4">
+            <figure class="px-10 pt-10">
+                <img src="~/img/steve.jpg" alt="Shoes" class="rounded-xl select-none" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">@item.Name - <span class="text-yellow-500 text-md">@item.Gold Gold</span></h2>
+                <div>
+                    <div class="flex justify-between">
+                        <span>Agility:</span>
+                        <span class="font-bold">@item.TotalAgility</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Intelligence:</span>
+                        <span class="font-bold">@item.TotalIntelligence</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Strength:</span>
+                        <span class="font-bold">@item.TotalStrength</span>
+                    </div>
+                </div>
+                <div class="card-actions mt-4 justify-between">
+                    <a class="btn btn-xs btn-info" asp-action="Details" asp-route-id="@item.Id"><i
+                            class="fa-solid fa-circle-info"></i> Details</a>
+                    <a class="btn btn-xs btn-warning" asp-action="Edit" asp-route-id="@item.Id"><i
+                            class="fa-solid fa-pen-to-square"></i> Edit</a>
+                    <a class="btn btn-xs btn-error" onclick="delete_ninja_@(item.Id).showModal()"><i
+                            class="fa-solid fa-trash-can"></i> Delete</a>
+                </div>
+            </div>
+        </div>
+        <dialog id="delete_ninja_@(item.Id)" class="modal">
+            <div class="modal-box">
+                <h2 class="font-bold text-lg">Are you want to delete @item.Name?</h2>
+                <div class="modal-action">
+                    <form asp-action="Delete" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>Delete</button>
+                    </form>
+                    <form method="dialog">
+                        <button class="btn">Close</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+    }
+</div>

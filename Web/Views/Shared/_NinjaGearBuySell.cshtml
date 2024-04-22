@@ -1,0 +1,62 @@
+@model Web.ViewModels.Gear.GearViewModel
+
+<div class="card w-56 bg-base-100 h-fit mb-4 mr-7 shadow-xl">
+    <div class="card-body">
+        <h2 class="card-title">@Model.Name</h2>
+        <div>
+            <h4 class="text-lg font-semibold mb-1">@Model.Category</h4>
+            <div class="flex justify-between">
+                <span>Agility:</span>
+                <span class="font-bold">@Model.Agility</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Intelligence:</span>
+                <span class="font-bold">@Model.Intelligence</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Strength:</span>
+                <span class="font-bold">@Model.Strength</span>
+            </div>
+        </div>
+        <div>
+            @if (Model.OwnsGear)
+            {
+                <a onclick="buy_sell_ninja_@(Model.Id).showModal()" class="btn btn-sm btn-danger">Sell</a>
+            }
+            else if (Model.HasEquipmentInCategory)
+            {
+                <a class="btn btn-sm btn-primary">Owns product in this category</a>
+            }
+            else
+            {
+                <a onclick="buy_sell_ninja_@(Model.Id).showModal()" class="btn btn-sm btn-primary">Buy - @Model.Price Gold</a>
+            }
+        </div>
+    </div>
+</div>
+<dialog id="buy_sell_ninja_@(Model.Id)" class="modal">
+    <div class="modal-box">
+        <h2 class="font-bold text-lg">Are you want to @(Model.OwnsGear ? "sell" : "buy") @Model.Name?</h2>
+        <div class="modal-action">
+            @if (Model.OwnsGear)
+            {
+                <form asp-controller="Shop" asp-action="Sell" asp-route-id="@Model.Id">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa-solid fa-money-bill-transfer"></i>Sell
+                    </button>
+                </form>
+            }
+            else
+            {
+                <form asp-controller="Shop" asp-action="Buy" asp-route-id="@Model.Id">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-money-bill"></i>Buy
+                    </button>
+                </form>
+            }
+            <form method="dialog">
+                <button class="btn">Cancel</button>
+            </form>
+        </div>
+    </div>
+</dialog>

@@ -1,0 +1,36 @@
+@model Web.ViewModels.Shop.ShopViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-10">
+        <h1 class="text-4xl font-bold">Shop for <a asp-controller="Ninja" asp-action="Details" asp-route-id="@Model.Ninja.Id">@Model.Ninja.Name -  <span class="text-yellow-500">@Model.Ninja.Gold Gold</span></a></h1>
+    </div>
+    <div class="col-sm-2">
+        <form method="get" asp-action="Index" asp-route-ninjaId="@Model.Ninja.Id">
+            <select class="form-control" name="category" onchange="this.form.submit();">
+                <option value="ShowAll">Show all</option>
+                @foreach (var category in Model.Categories)
+                {
+                    <option selected="@(Model.Category.HasValue && Model.Category.Value == category)" value="@category">@category</option>
+                }
+            </select>
+        </form>
+    </div>
+</div>
+
+@foreach (var gearGroup in Model.GroupedPerCategoryGears)
+{
+    <div class="space-y-4">
+        <h2 class="text-xl font-bold">@gearGroup.Key</h2>
+        <div class="flex w-7/12 h-fit flex-wrap">
+            @foreach (var gear in gearGroup.Value)
+            {
+                <partial name="_NinjaGearBuySell" model="@gear"/>
+            }
+        </div>
+    </div>
+}

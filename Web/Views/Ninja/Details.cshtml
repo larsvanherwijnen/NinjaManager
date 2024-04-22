@@ -1,0 +1,90 @@
+@model Web.ViewModels.Ninja.NinjaViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-4xl mb-2">Ninja - @Model.Name</h1>
+<div>
+    <a class="btn btn-xs btn-secondary" asp-action="Index"><i class="fa-solid fa-arrow-left"></i> Back to List</a>
+    <a class="btn btn-xs btn-warning" asp-action="Edit" asp-route-id="@Model?.Id"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+    <a class="btn btn-xs btn-success" asp-controller="Shop" asp-action="Index" asp-route-nId="@Model?.Id"><i class="fa-solid fa-cart-shopping"></i> Shop</a>
+    <a class="btn btn-xs btn-natural" onclick="clear_inventory_@(Model.Id).showModal()"><i class="fa-solid fa-broom"></i> Clear inventory</a>
+</div>
+
+<hr class="my-2"/>
+
+<div class="flex justify-between">
+    <div class="flex flex-col w-1/3 space-y-4">
+        <div class="flex justify-center">
+            <img src="~/img/full-steve.png" alt="Profile" class="w-1/3 rounded-xl select-none"/>
+        </div>
+        <div class="stats shadow">
+            <div class="stat">
+                <div class="stat-title">Gold in wallet</div>
+                <div class="stat-value text-yellow-500">
+                    <i class="fa-solid fa-coins"></i> @Model.Gold
+                </div>
+            </div>
+            <div class="stat">
+                <div class="stat-title">Gear value</div>
+                <div class="stat-value text-yellow-500">
+                    <i class="fa-solid fa-vest-patches"></i> @Model.TotalGearValue
+                </div>
+            </div>
+        </div>
+        <div class="stats shadow">
+
+            <div class="stat">
+                <div class="stat-title">Agility</div>
+                <div class="stat-value">
+                    <i class="fa-solid fa-person-running"></i> @Model.TotalAgility
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">Intelligence</div>
+                <div class="stat-value">
+                    <i class="fa-solid fa-brain"></i> @Model.TotalIntelligence
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">Strength</div>
+                <div class="stat-value">
+                    <i class="fa-solid fa-hand-fist"></i> @Model.TotalStrength
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="flex w-7/12 h-fit flex-wrap">
+        @if (Model.Gear != null)
+        {
+            foreach (var gear in Model.Gear)
+            {
+                <partial name="_NinjaGear" model="@gear"/>
+            }
+        }
+        else
+        {
+            <p class="self-center justify-self-center text-base-300">You don't have any gear!</p>
+        }
+    </div>
+</div>
+<dialog id="clear_inventory_@(Model.Id)" class="modal">
+    <div class="modal-box">
+        <h2 class="font-bold text-lg">Are you want to clear the inventory of ninja @Model.Name?</h2>
+        <div class="modal-action">
+            <form asp-controller="Ninja" asp-action="clear" asp-route-id="@Model.Id">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-broom"></i>Clear
+                </button>
+            </form>
+            <form method="dialog">
+                <button class="btn">Cancel</button>
+            </form>
+        </div>
+    </div>
+</dialog>

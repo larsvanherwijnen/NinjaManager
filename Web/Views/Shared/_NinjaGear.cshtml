@@ -1,0 +1,22 @@
+@model Web.ViewModels.Gear.GearViewModel
+
+<div class="card w-56 bg-base-100 h-fit mb-4 mr-7 shadow-xl">
+    <div class="card-body">
+        <h2 class="card-title">@Model.Name</h2>
+        <div>
+            <h4 class="text-lg font-semibold mb-1">@Model.Category</h4>
+            <div class="flex justify-between">
+                <span>Agility:</span>
+                <span class="font-bold">@Model.Agility</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Intelligence:</span>
+                <span class="font-bold">@Model.Intelligence</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Strength:</span>
+                <span class="font-bold">@Model.Strength</span>
+            </div>
+        </div>
+    </div>
+</div>

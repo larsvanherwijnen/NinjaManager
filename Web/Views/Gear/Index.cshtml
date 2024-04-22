@@ -1,0 +1,77 @@
+@model IEnumerable<Web.ViewModels.Gear.GearViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-4xl mb-2">Gear</h1>
+
+<p>
+    <a class="btn btn-xs btn-success" asp-action="Create"><i class="fa-solid fa-plus"></i>Create New</a>
+</p>
+
+<hr class="my-2"/>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Strength)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Agility)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Intelligence)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Strength)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Agility)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Intelligence)
+            </td>
+            <td>
+                <a class="btn btn-xs btn-warning" asp-action="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                <a class="btn btn-xs btn-error" onclick="delete_gear_@(item.Id).showModal()"><i class="fa-solid fa-trash-can"></i> Delete</a>
+            </td>
+        </tr>
+        <dialog id="delete_gear_@(item.Id)" class="modal">
+            <div class="modal-box">
+                <h2 class="font-bold text-lg">Are you want to delete @item.Name?</h2>
+                <h2 class="italic">There are @item.Count ninjas with this item</h2>
+                <div class="modal-action">
+                    
+                    <form asp-action="Delete" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>Delete</button>
+                    </form>
+                    <form method="dialog">
+                        <button class="btn">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+    }
+    </tbody>
+</table>
